@@ -16,8 +16,6 @@ def tags(text):
 
         # Extract just the keywords
         top_tags = [keyword[0] for keyword in keywords]
-        return top_tags
-
-
+        return ', '.join(top_tags)
 
 

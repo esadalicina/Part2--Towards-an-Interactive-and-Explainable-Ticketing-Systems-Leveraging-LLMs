@@ -4,6 +4,7 @@ import certifi
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from Translator import german, french
 from streamlit_autorefresh import st_autorefresh
 from Admin_correct import *
 from User_Feedback import *
@@ -229,6 +230,16 @@ def display_ticket_info(ticket_id):
     st.write(f"**Priority:** {ticket['Priority']}")
     st.write(f"**Status:** {ticket['Status']}")
 
+    german = st.button("German Translation", use_container_width=True)
+    if german:
+        Gtrans = german(ticket['Description'])
+        st.write(f"**German Translation:** {Gtrans}")
+
+    french = st.button("French Translation", use_container_width=True)
+    if french:
+        Ftrans = french(ticket['Description'])
+        st.write(f"**French Translation:** {Ftrans}")
+
     ticket_chat_page(ticket_id)
 
     if ticket['Status'] != 'User Feedback':
@@ -370,7 +381,7 @@ def main(users, tickets):
             if priority_filter != 'All':
                 team_tickets = team_tickets[team_tickets['Priority'] == priority_filter]
 
-            st.dataframe(team_tickets[['id', "Tags", "Ticket Title", "Ticket Summary"]], use_container_width=True)
+            st.dataframe(team_tickets[['id', "Tags", "Ticket Title"]], use_container_width=True)
 
             ticket_id = st.selectbox('Enter Ticket ID to Accept', team_tickets['id'])
             if st.button('Accept Ticket'):

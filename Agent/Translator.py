@@ -7,6 +7,7 @@ model_name = "facebook/mbart-large-50-many-to-many-mmt"
 model = MBartForConditionalGeneration.from_pretrained(model_name)
 tokenizer = MBart50TokenizerFast.from_pretrained(model_name)
 
+text = "I am a student."
 
 def translate_text(text, src_lang, tgt_lang):
     tokenizer.src_lang = src_lang
@@ -28,3 +29,5 @@ def french(text):
     return translated_to_french
 
 
+german(text)
+french(text)
