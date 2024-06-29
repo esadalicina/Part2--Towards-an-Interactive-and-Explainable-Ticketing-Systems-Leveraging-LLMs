@@ -370,7 +370,7 @@ def main(users, tickets):
             if priority_filter != 'All':
                 team_tickets = team_tickets[team_tickets['Priority'] == priority_filter]
 
-            st.dataframe(team_tickets[['id', "Ticket Title", 'Priority', 'Status']], use_container_width=True)
+            st.dataframe(team_tickets[['id', "Tags", "Ticket Title", "Ticket Summary"]], use_container_width=True)
 
             ticket_id = st.selectbox('Enter Ticket ID to Accept', team_tickets['id'])
             if st.button('Accept Ticket'):

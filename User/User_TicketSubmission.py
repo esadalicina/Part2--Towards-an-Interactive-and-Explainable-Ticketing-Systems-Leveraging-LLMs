@@ -5,6 +5,9 @@ import base64
 import streamlit as st
 import time
 from Title_Gen import generate_title
+from Summarizer import summarize
+from Translator import german, french
+from Tag_Gen import tags
 import sys
 import os
 
@@ -88,6 +91,14 @@ def ticket_submission(df):
         st.session_state.last_submission_time = 0
     if "title" not in st.session_state:
         st.session_state.title = None
+    if "tags" not in st.session_state:
+        st.session_state.tags = None
+    if "summary" not in st.session_state:
+        st.session_state.summary = None
+    if "german" not in st.session_state:
+        st.session_state.german = None
+    if "french" not in st.session_state:
+        st.session_state.french = None
 
     st.write("Please enter a detailed description of your complaint and what you already have done to solve it!")
     st.session_state.description = st.text_area("Description", value=st.session_state.description, height=200,
@@ -154,6 +165,8 @@ def ticket_submission(df):
         st.button("Submit", key="submit1", disabled=True)
     else:
         if st.button("Submit", key="submit2"):
+            st.session_state.summary = summarize(st.session_state.description)
+            st.session_state.tags = tags(st.session_state.description)
             new_ticket = {
                 "id": len(load_tickets()) + 1,
                 "Username": st.session_state.username,
@@ -167,7 +180,11 @@ def ticket_submission(df):
                 "Submission Time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
                 "Assigned_to": "",
                 "Feedback Smiley": "",
-                "Feedback Text": ""
+                "Feedback Text": "",
+                "Ticket Summary": st.session_state.summary,
+                "Tags": st.session_state.tags,
+                "Ticket Translation German": st.session_state.german,
+                "Ticket Translation French": st.session_state.french
             }
 
             new_ticket_df = pd.DataFrame([new_ticket])

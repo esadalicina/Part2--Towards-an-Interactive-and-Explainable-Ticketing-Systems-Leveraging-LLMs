@@ -7,6 +7,7 @@ model_name = "facebook/mbart-large-50-many-to-many-mmt"
 model = MBartForConditionalGeneration.from_pretrained(model_name)
 tokenizer = MBart50TokenizerFast.from_pretrained(model_name)
 
+
 def translate_text(text, src_lang, tgt_lang):
     tokenizer.src_lang = src_lang
     encoded_text = tokenizer(text, return_tensors="pt")
@@ -16,20 +17,14 @@ def translate_text(text, src_lang, tgt_lang):
     )
     return tokenizer.batch_decode(generated_tokens, skip_special_tokens=True)[0]
 
-# Example ticket text
-ticket_text = "The server is down and needs to be restarted."
 
-# Translate the ticket to German
-translated_to_german = translate_text(ticket_text, 'en_XX', 'de_DE')
-print("Translated to German:", translated_to_german)
-
-# Translate the ticket to French
-translated_to_french = translate_text(ticket_text, 'en_XX', 'fr_XX')
-print("Translated to French:", translated_to_french)
+def german(text):
+    translated_to_german = translate_text(text, 'en_XX', 'de_DE')
+    return translated_to_german
 
 
-# Save the model and tokenizer
-model.save_pretrained("/home/users/elicina/Master-Thesis/Models/Translater")
-tokenizer.save_pretrained("/home/users/elicina/Master-Thesis/Models/Tok-Translater")
+def french(text):
+    translated_to_french = translate_text(text, 'en_XX', 'fr_XX')
+    return translated_to_french
 
-print("Model and tokenizer saved successfully.")
+
