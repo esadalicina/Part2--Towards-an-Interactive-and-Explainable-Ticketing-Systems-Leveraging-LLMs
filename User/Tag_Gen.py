@@ -1,30 +1,23 @@
-from transformers import AutoTokenizer, AutoModelForTokenClassification
+from keybert import KeyBERT
 from transformers import pipeline
 
-# Load the pre-trained NER model and tokenizer
-model_name = "dbmdz/bert-large-cased-finetuned-conll03-english"
-model = AutoModelForTokenClassification.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+# Load a pre-trained transformer model using Hugging Face's pipeline
+model_name = "sentence-transformers/all-MiniLM-L6-v2"
+hf_pipeline = pipeline("feature-extraction", model=model_name)
 
-# Create a NER pipeline
-ner_pipeline = pipeline("ner", model=model, tokenizer=tokenizer, aggregation_strategy="simple")
-
-
-def extract_tags(text):
-    # Use the NER pipeline to identify entities in the text
-    entities = ner_pipeline(text)
-    tags = [entity['word'].lower() for entity in entities]  # type: ignore # Convert tags to lowercase
-    return tags
+# Initialize KeyBERT with the transformer model
+kw_model = KeyBERT(model=hf_pipeline)
 
 
 def tags(text):
 
-    # Set to store unique tags
-    unique_tags = set()
+        # Extract keywords
+        keywords = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words='english', top_n=3)
 
-    # Extract tags from the ticket text
-    tags = extract_tags(text)
-    unique_tags.update(tags)  # Add the tags to the set of unique tags
+        # Extract just the keywords
+        top_tags = [keyword[0] for keyword in keywords]
+        return top_tags
 
-    # Convert the set of unique tags back to a list
-    return list(unique_tags)
+
+
+
