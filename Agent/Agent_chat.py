@@ -17,7 +17,7 @@ def send_message(sender, receiver, group_id, message=None, image_file=None):
         add_message(sender, receiver, group_id, message, image_data)
 
 
-def display_messages(group_id, current_user):
+def display_messages(group_id, current_user, user_name):
     """Display messages for a specific group."""
     messages = get_messages(group_id)
 
@@ -123,7 +123,7 @@ def display_messages(group_id, current_user):
     st.markdown(chat_container, unsafe_allow_html=True)
 
 
-def chat_conversation(team):
+def chat_conversation(team, username):
     """Streamlit UI for chat conversation."""
 
     # Initialize the database
@@ -139,7 +139,7 @@ def chat_conversation(team):
 
     with st.form(key='message_form'):
         # Display chat messages initially
-        display_messages(chat_with, current_user)
+        display_messages(chat_with, current_user, username)
 
         input_placeholder = st.empty()
         support_message = input_placeholder.text_area("You:", value=st.session_state['support_message'], height=100)

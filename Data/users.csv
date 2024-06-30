@@ -14,3 +14,4 @@ id,name,password,team,category,role
 15.0,Ema,ema,Money transfers,Money Transfers and Financial Services,support
 16.0,Igor Tchappi,igor,Other financial service,Money Transfers and Financial Services,support
 17.0,Esada,esada,"Money transfer, virtual currency, or money service",Money Transfers and Financial Services,support
+18.0,Sam,sam,Bank account or service, Bank Account or Service,support
