@@ -1,6 +1,6 @@
 id,name,password,team,category,role
 1.0,Admin,adminpass,Admin,Admin,admin
-2.0,Warren Buffett,warren,Checking or savings account, Bank Account or Service,support
+2.0,Warren Buffett,warren,Bank account or service, Bank Account or Service,support
 3.0,Seymour Cray,seymour,Bank account or service,Bank Account or Service,support
 5.0,Bill Gates,bill,Mortgage,Loans,support
 6.0,Elon Musk,elon,"Payday loan , title loan or ,personal loan",Loans,support
@@ -13,4 +13,4 @@ id,name,password,team,category,role
 13.0,Laura,laura,Debt collection,Credit Reporting and Debt Collection,support
 15.0,Ema,ema,Money transfers,Money Transfers and Financial Services,support
 16.0,Igor Tchappi,igor,Other financial service,Money Transfers and Financial Services,support
-16.0,Esada,esada,"Money transfer, virtual currency, or money service",Money Transfers and Financial Services,support
+17.0,Esada,esada,"Money transfer, virtual currency, or money service",Money Transfers and Financial Services,support

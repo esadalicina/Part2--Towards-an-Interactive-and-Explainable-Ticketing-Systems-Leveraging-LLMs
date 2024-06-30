@@ -8,6 +8,7 @@ from Translator import german, french
 from streamlit_autorefresh import st_autorefresh
 from Admin_correct import *
 from User_Feedback import *
+from Agent_chat import chat_conversation
 import sys
 import os
 
@@ -316,6 +317,22 @@ def update_subcategory():
     st.session_state.selected_subcategory = ""
 
 
+
+# Function to save a message
+def save_message(user, team, message, team_chat=False):
+    st.session_state.messages.append({
+        'user': user,
+        'team': team,
+        'message': message,
+        'team_chat': team_chat
+    })
+
+# Function to load messages
+def load_messages(team):
+    return pd.DataFrame([msg for msg in st.session_state.messages if msg['team'] == team and msg['team_chat']])
+
+
+
 def main(users, tickets):
     # Initialize session state variables if they don't exist
 
@@ -347,7 +364,18 @@ def main(users, tickets):
         st.session_state.textTrans = ""
     if "input" not in st.session_state:
         st.session_state.input = ""
+    if 'messages' not in st.session_state:
+        st.session_state.messages = []
+
+
     # Initialize session state variables to hold the chat history
+
+    user_colors = {
+        'User1': '#FFA07A',
+        'User2': '#98FB98',
+        'User3': '#87CEEB',
+        'User4': '#FFD700'
+    }
 
 
     if not st.session_state.logged_in:
@@ -439,18 +467,28 @@ def main(users, tickets):
                 mark_ticket_wrong_classification(ticket_id_wrong_classification)
                 load_tickets()  # Reload tickets to get updated data
 
+            # TEAM CHAT
+            # # Team Chat Section
             # st.subheader('Team Chat')
             # chat_message = st.text_area('Enter your message')
             # if st.button('Send Chat Message'):
             #     save_message(st.session_state.user, st.session_state.team, chat_message, team_chat=True)
             #     st.success('Message sent to team chat.')
             #
-            # # new
             # st.subheader('Chat Messages')
-            # team_chat_messages = load_messages(team=st.session_state.team)
+            # team_chat_messages = load_messages(st.session_state.team)
             # for _, message in team_chat_messages.iterrows():
-            #     st.write(f"**{message['sender']}**: {message['message']}")
-            # new
+            #     user_color = user_colors.get(message['user'], '#FFFFFF')
+            #     st.markdown(f"""
+            #             <div style="background-color: {user_color}; padding: 10px; border-radius: 5px;">
+            #                 <strong>{message['user']}:</strong> {message['message']}
+            #             </div>
+            #             """, unsafe_allow_html=True)
+
+            chat_conversation(st.session_state.team)
+
+
+
 
         elif page == "My Tickets" and st.session_state.role != 'admin':
             my_tickets_page()
@@ -463,6 +501,6 @@ def main(users, tickets):
 
 
 if __name__ == "__main__":
-    users = pd.read_csv('/Users/esada/Desktop/pythonProject/data/users.csv')
+    users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
     tickets = load_tickets()
     main(users, tickets)

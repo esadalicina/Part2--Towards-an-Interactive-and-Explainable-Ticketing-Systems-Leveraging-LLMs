@@ -1,4 +1,6 @@
 import joblib
+import numpy as np
+import shap
 from matplotlib import pyplot as plt
 from sklearn.svm import SVC
 from sklearn.pipeline import Pipeline
@@ -59,7 +61,7 @@ def custom_scorer(estimator, X, y):
 
 # Define the classifiers to test
 classifiers = {
-    'SVC': SVC()
+    'SVC': SVC(probability=True, random_state=42)
     }
 
 
@@ -91,7 +93,19 @@ best_overall_model = None
 best_overall_score = 0
 best_count_vect = None
 best_tfidf_transformer = None
+explainer = None
 
+
+# Define a function to predict probabilities
+def predict_proba_wrapper(texts):
+    # Ensure texts are in list form for compatibility
+    if isinstance(texts, np.ndarray):
+        texts = texts.tolist()
+
+    transformed_texts = best_model.named_steps['count'].transform(texts)
+    transformed_texts = best_model.named_steps['tf'].transform(transformed_texts)
+    # Predict probabilities
+    return best_model.predict_proba(transformed_texts)
 
 
 # Iterate over classifiers
@@ -115,6 +129,13 @@ for clf_name, clf in classifiers.items():
 
     # Retrieve the best model from RandomizedSearchCV
     best_model = gs_clf.best_estimator_
+
+    # Use a subset of training data to fit the SHAP explainer
+    subset_size = 100  # Choose an appropriate size based on your data
+    train_subset = train_texts[:subset_size]
+
+    # Create the SHAP explainer
+    explainer = shap.KernelExplainer(predict_proba_wrapper, train_subset)
 
     if best_score > best_overall_score:
         best_overall_model = best_model
@@ -189,8 +210,8 @@ for clf_name, clf in classifiers.items():
 # print(results_df)
 
 # Save the best overall model, TF-IDF transformer, and tokenizer
-joblib.dump(best_overall_model.named_steps['clf'], '/Users/esada/Desktop/pythonProject/Model/TF/modelML.pkl')
-joblib.dump(best_count_vect, '/Users/esada/Desktop/pythonProject/Model/TF/count_vect.pkl')
-joblib.dump(best_tfidf_transformer, '/Users/esada/Desktop/pythonProject/Model/TF/tfidf_transformer.pkl')
-
+joblib.dump(best_overall_model.named_steps['clf'], '/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/modelML.pkl')
+joblib.dump(best_count_vect, '/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/count_vect.pkl')
+joblib.dump(best_tfidf_transformer, '/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/tfidf_transformer.pkl')
+joblib.dump(explainer, '/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/explainer.pkl')
 
