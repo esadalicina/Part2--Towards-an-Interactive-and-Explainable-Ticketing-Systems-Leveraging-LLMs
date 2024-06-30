@@ -1,4 +1,3 @@
-from streamlit_autorefresh import st_autorefresh
 import base64
 import streamlit as st
 import sys
@@ -157,5 +156,3 @@ def chat_conversation(team):
                 send_message(current_user, chat_with, team, image_file=uploaded_file)
                 st.session_state['support_message'] = "   "
 
-    # Auto-refresh every 1 second
-    st.experimental_rerun()
