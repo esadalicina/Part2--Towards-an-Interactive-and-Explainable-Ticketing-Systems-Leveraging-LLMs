@@ -41,3 +41,10 @@ def get_messages(user1, user2, ticket_id):
     messages = cursor.fetchall()
     conn.close()
     return messages
+
+def delete_messages(ticket_id):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM messages WHERE ticket_id = ?', (ticket_id,))
+    conn.commit()
+    conn.close()

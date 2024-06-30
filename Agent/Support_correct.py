@@ -16,7 +16,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 import Resources.data_access
 from Resources.data_access import load_tickets, update_ticket, get_email_address
-from Resources.chat_utils import init_db, add_message, get_messages
+from Resources.chat_utils import init_db, add_message, get_messages, delete_messages
 
 
 def login(username, password):
@@ -207,7 +207,7 @@ def ticket_chat_page(ticket_id):
                 send_message(current_user, chat_with, ticket_id, image_file=uploaded_file)
                 st.session_state['support_message'] = "   "
 
-    # Auto-refresh every 2 seconds
+        # Auto-refresh every 2 seconds
     st_autorefresh(interval=1000, key="chat_refresh")
 
 
@@ -221,6 +221,49 @@ def mark_ticket_wrong_classification(ticket_id):
     update_ticket(ticket_id, 'Status', 'Wrong Classification')
 
 
+def translator_page(user):
+    st.write("Welcome to the translation chatbot!")
+    st.write("Type your message, select the target language, and see the translation below.")
+
+    # Initialize session state variables to hold the chat history
+    if f'messages_{user}' not in st.session_state:
+        st.session_state[f'messages_{user}'] = []
+
+    # User input area
+    with st.form(key=f"chat_{user}", clear_on_submit=True):
+        user_input = st.text_input("You:", key=f'input_text_{user}')
+        target_lang = st.selectbox("Select target language:", ['French', 'German'], key=f'select_lang_{user}')
+        submit_button = st.form_submit_button(label='Send')
+
+    if submit_button and user_input:
+        if target_lang == 'French':
+            translated_text = french(user_input)
+        elif target_lang == 'German':
+            translated_text = german(user_input)
+
+        # Append user and bot messages to the session state
+        st.session_state[f'messages_{user}'].append(("👤", user_input))
+        st.session_state[f'messages_{user}'].append(("🤖", translated_text))
+
+    st.write("## Chat History")
+
+    for speaker, message in st.session_state[f'messages_{user}']:
+        if speaker == "👤":
+            st.markdown(f"""
+                    <div style='background-color: #e6e6e6; padding: 10px; border-radius: 10px; margin-bottom: 5px;'>
+                    <strong>{speaker}</strong>: {message}
+                    </div>
+                    """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+                    <div style='background-color: #cce5ff; padding: 10px; border-radius: 10px; margin-bottom: 5px;'>
+                    <strong>{speaker}</strong>: {message}
+                    </div>
+                    """, unsafe_allow_html=True)
+
+    st.session_state[f'messages_{user}'] = []
+
+
 def display_ticket_info(ticket_id):
     ticket = tickets.loc[tickets['id'] == ticket_id].squeeze()
 
@@ -230,23 +273,15 @@ def display_ticket_info(ticket_id):
     st.write(f"**Priority:** {ticket['Priority']}")
     st.write(f"**Status:** {ticket['Status']}")
 
-    german = st.button("German Translation", use_container_width=True)
-    if german:
-        Gtrans = german(ticket['Description'])
-        st.write(f"**German Translation:** {Gtrans}")
-
-    french = st.button("French Translation", use_container_width=True)
-    if french:
-        Ftrans = french(ticket['Description'])
-        st.write(f"**French Translation:** {Ftrans}")
-
     ticket_chat_page(ticket_id)
 
     if ticket['Status'] != 'User Feedback':
         if st.button("Close Ticket", key=f"close_{ticket['id']}"):
+            delete_messages(ticket_id)
             update_ticket_status(ticket['id'], 'User Feedback', st.session_state.user)
-            st.success(f'Ticket closed.')
-            # st.session_state.selected_ticket = None
+            t = st.success(f'Ticket closed', icon="✅")
+            time.sleep(1)
+            t.empty()
             st.rerun()
 
 
@@ -296,8 +331,6 @@ def main(users, tickets):
         st.session_state.category = None
     if 'page' not in st.session_state:
         st.session_state.page = 'Dashboard'
-    # if 'selected_ticket' not in st.session_state:
-    #     st.session_state.selected_ticket = None
     if "new_member_name" not in st.session_state:
         st.session_state.new_member_name = ""
     if "new_member_password" not in st.session_state:
@@ -310,6 +343,12 @@ def main(users, tickets):
         st.session_state.sele_category = ""
     if "sele_subcategory" not in st.session_state:
         st.session_state.sele_subcategory = ""
+    if "text_trans" not in st.session_state:
+        st.session_state.textTrans = ""
+    if "input" not in st.session_state:
+        st.session_state.input = ""
+    # Initialize session state variables to hold the chat history
+
 
     if not st.session_state.logged_in:
         st.title('Support Ticketing System')
@@ -338,7 +377,7 @@ def main(users, tickets):
         if st.session_state.role == 'admin':
             pages = ["Dashboard", "Ticket Updates", "Ticket Information", "User Feedback", "Conversation"]
         else:
-            pages = ["Tickets", "My Tickets", "User Feedback"]
+            pages = ["Tickets", "My Tickets", "User Feedback", "Translator"]
 
         if st.session_state.page not in pages:
             st.session_state.page = pages[0]
@@ -418,6 +457,9 @@ def main(users, tickets):
 
         elif page == "User Feedback" and st.session_state.role != 'admin':
             user_feedback_page(st.session_state.user)
+
+        elif page == "Translator" and st.session_state.role != 'admin':
+            translator_page(st.session_state.user)
 
 
 if __name__ == "__main__":

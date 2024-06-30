@@ -5,8 +5,6 @@ import base64
 import streamlit as st
 import time
 from Title_Gen import generate_title
-from Translator import german, french
-from Tag_Gen import tags
 from Tag_Gen import tags
 import sys
 import os

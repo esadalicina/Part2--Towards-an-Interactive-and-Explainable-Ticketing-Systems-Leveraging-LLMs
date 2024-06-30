@@ -185,9 +185,14 @@ def conversation(st, save_message, users):
 def feedback_page(users, tickets):
     st.write("Client & Support Relation")
 
-    user = st.selectbox("Select a Support Agent", users['name'])
-    # Load the tickets data
-    chart_data = tickets.loc[tickets['Assigned_to'] == user]
+    user = st.selectbox("Select a Support Agent", [""]+list(users['name']))
+
+    if user == "":
+        chart_data = tickets
+    else:
+        # Load the tickets data
+        chart_data = tickets.loc[tickets['Assigned_to'] == user]
+
     # Aggregate feedback data
     feedback_counts = chart_data['Feedback Smiley'].value_counts().reset_index()
     feedback_counts.columns = ['Feedback Smiley', 'Count']
