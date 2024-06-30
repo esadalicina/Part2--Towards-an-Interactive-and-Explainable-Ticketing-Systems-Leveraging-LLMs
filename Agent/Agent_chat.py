@@ -17,90 +17,95 @@ def send_message(sender, receiver, group_id, message=None, image_file=None):
         add_message(sender, receiver, group_id, message, image_data)
 
 
-def display_messages(group_id, current_user, user_name):
+def display_messages(group_id, current_user, user):
     """Display messages for a specific group."""
-    messages = get_messages(group_id)
+    messages = get_messages(group_id)  # Fetch messages for the current user and group
 
     # CSS for styling
     st.markdown("""
-        <style>
-        .chat-history {
-            max-height: 500px;
-            height: 350px;
-            overflow-y: auto;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #FFF;
-        }
-        .message {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .message-content {
-            padding: 10px;
-            border-radius: 10px;
-            word-wrap: break-word;
-            max-width: 80%;
-            cursor: pointer; /* Add cursor pointer for clickable effect */
-            position: relative; /* Required for absolutely positioned elements */
-        }
-        .message-content img {
-            max-width: 100%; /* Ensure images fit within container */
-            height: auto;
-            display: block;
-        }
-        .message-user {
-            justify-content: flex-end;
-        }
-        .message-user .message-content {
-            background-color: #DCF8C6;
-            text-align: right;
-            border: 1px solid #d4d4d4;
-        }
-        .message-other {
-            justify-content: flex-start;
-        }
-        .message-other .message-content {
-            background-color: #FFF;
-            text-align: left;
-            border: 1px solid #d4d4d4;
-        }
-        .icon {
-            margin: 0 10px;
-        }
-        .message-user .icon {
-            order: 1;
-        }
-        .message-other .icon {
-            order: -1;
-        }
-        /* CSS for enlarged image */
-        .enlarged-image-checkbox {
-            display: none; /* Hide the checkbox */
-        }
-        .enlarged-image-label {
-            display: none; /* Initially hide the label */
-            position: fixed;
-            z-index: 2;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.9);
-            text-align: center;
-        }
-        .enlarged-image-label img {
-            max-width: 80%;
-            max-height: 80%;
-            margin-top: 10%; /* Adjust margin to center image vertically */
-        }
-        .message-content:hover .enlarged-image-label {
-            display: block; /* Show label on hover */
-        }
-        </style>
-        """, unsafe_allow_html=True)
+            <style>
+            .chat-history {
+                max-height: 500px;
+                height: 350px;
+                overflow-y: auto;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 10px;
+                background-color: #FFF;
+            }
+            .message {
+                display: flex;
+                flex-direction: column; /* Arrange user name above message */
+                align-items: flex-start; /* Align messages to the left */
+                margin-bottom: 10px;
+            }
+            .message-content {
+                padding: 10px;
+                border-radius: 10px;
+                word-wrap: break-word;
+                max-width: 80%;
+                cursor: pointer; /* Add cursor pointer for clickable effect */
+                position: relative; /* Required for absolutely positioned elements */
+            }
+            .message-content img {
+                max-width: 100%; /* Ensure images fit within container */
+                height: auto;
+                display: block;
+            }
+            .message-user {
+                align-items: flex-end; /* Align user's own messages to the right */
+            }
+            .message-user .message-content {
+                background-color: #DCF8C6;
+                text-align: right;
+                border: 1px solid #d4d4d4;
+            }
+            .message-other {
+                align-items: flex-start; /* Align other users' messages to the left */
+            }
+            .message-other .message-content {
+                background-color: #FFF;
+                text-align: left;
+                border: 1px solid #d4d4d4;
+            }
+            .user-name {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+            .icon {
+                margin: 0 10px;
+            }
+            .message-user .icon {
+                order: 1;
+            }
+            .message-other .icon {
+                order: -1;
+            }
+            /* CSS for enlarged image */
+            .enlarged-image-checkbox {
+                display: none; /* Hide the checkbox */
+            }
+            .enlarged-image-label {
+                display: none; /* Initially hide the label */
+                position: fixed;
+                z-index: 2;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                text-align: center;
+            }
+            .enlarged-image-label img {
+                max-width: 80%;
+                max-height: 80%;
+                margin-top: 10%; /* Adjust margin to center image vertically */
+            }
+            .message-content:hover .enlarged-image-label {
+                display: block; /* Show label on hover */
+            }
+            </style>
+            """, unsafe_allow_html=True)
 
     # HTML generation for chat history
     chat_container = '<div class="chat-history">'
@@ -108,17 +113,17 @@ def display_messages(group_id, current_user, user_name):
         if sender == current_user:
             if img:
                 image_data = base64.b64encode(img).decode()
-                img_html = f'<div class="message message-user"><label class="message-content"><img src="data:image/png;base64,{image_data}" class="img-thumbnail"/></label><div class="icon">💬</div></div>'
+                img_html = f'<div class="message message-user"><div class="user-name">{current_user}</div><label class="message-content"><img src="data:image/png;base64,{image_data}" class="img-thumbnail"/></label></div>'
                 chat_container += img_html
             else:
-                chat_container += f'<div class="message message-user"><div class="message-content">{msg}</div><div class="icon">💬</div></div>'
+                chat_container += f'<div class="message message-user"><div class="user-name">{current_user}</div><div class="message-content">{msg}</div></div>'
         else:
             if img:
                 image_data = base64.b64encode(img).decode()
-                img_html = f'<div class="message message-other"><label class="message-content"><img src="data:image/png;base64,{image_data}" class="img-thumbnail"/></label><div class="icon">👤</div></div>'
+                img_html = f'<div class="message message-other"><div class="user-name">{sender}</div><label class="message-content"><img src="data:image/png;base64,{image_data}" class="img-thumbnail"/></label></div>'
                 chat_container += img_html
             else:
-                chat_container += f'<div class="message message-other"><div class="message-content">{msg}</div><div class="icon">👤</div></div>'
+                chat_container += f'<div class="message message-other"><div class="user-name">{sender}</div><div class="message-content">{msg}</div></div>'
     chat_container += '</div>'
     st.markdown(chat_container, unsafe_allow_html=True)
 
