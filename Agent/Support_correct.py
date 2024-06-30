@@ -485,7 +485,7 @@ def main(users, tickets):
             #             </div>
             #             """, unsafe_allow_html=True)
 
-            chat_conversation(st.session_state.team)
+            chat_conversation(st.session_state.team, st.session_state.user)
 
 
 
