@@ -1,37 +1,57 @@
 import joblib
+import numpy as np
 import shap
-import pandas as pd
+import matplotlib.pyplot as plt
+import streamlit as st
 
-# Load the model
-loaded_model = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/modelML.pkl')
-# Load the objects
-vect = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/count_vect.pkl')
-transformer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/tfidf_transformer.pkl')
+
+# Load the model and required objects with error handling
+try:
+    loaded_model = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/modelML.pkl')
+    tfidf_vectorizer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/tfidf_transformer.pkl')
+    explainer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/explainer.pkl')
+except Exception as e:
+    print(f"Error loading model or objects: {e}")
+    raise
 
 # Classify the new tickets
 def predict_lr(text):
-    Topic_names = {0: 'Credit Reporting and Debt Collection', 1: 'Credit Cards and Prepaid Cards',
-                   2: 'Bank Account or Service', 3: 'Loans', 4: 'Money Transfers and Financial Services'}
-    X_new_counts = vect.transform(text)
-    X_new_tfidf = transformer.transform(X_new_counts)
+    Topic_names = {
+        0: 'Credit Reporting and Debt Collection',
+        1: 'Credit Cards and Prepaid Cards',
+        2: 'Bank Account or Service',
+        3: 'Loans',
+        4: 'Money Transfers and Financial Services'
+    }
+    X_new_tfidf = tfidf_vectorizer.transform(text)
     predicted = loaded_model.predict(X_new_tfidf)
     predicted_proba = loaded_model.predict_proba(X_new_tfidf)
     return Topic_names[predicted[0]], predicted[0], predicted_proba
 
-# Function to explain predictions
-def explain_prediction(text):
-    pass
+# Function to explain predictions using KernelExplainer
+def explain_texts(texts):
+    X_tfidf = tfidf_vectorizer.transform(texts)
+    background = np.zeros(X_tfidf.shape)  # Using a background dataset of zeros
+    explainer = shap.KernelExplainer(loaded_model.predict_proba, background)
+    shap_values = explainer.shap_values(X_tfidf)
+    return shap_values
 
+# Simplified SHAP explanation plot
+def plot_shap_values(texts, class_index=0):
+    shap_values = explain_texts(texts)
 
-# Example usage
-text = ["I am having trouble logging into my bank account. I have tried multiple times and "
-        "I have received no response. I tried resetting my password, but that did not seem to work either. "
-        "I am concerned that there may be an issue with my account security or that someone "
-        "has accessed my account without my permission."]
+    # Extract shap_values for the specified class
+    shap_values_class = shap_values[0][:, class_index]
 
-prediction, label, prob = predict_lr(text)
-print(f"Prediction: {prediction}")
-print(f"Predicted class index: {label}")
-print(f"Prediction probabilities: {prob}")
-# Explain the prediction
-explain_prediction(text)
+    # Filter SHAP values to include only those greater than 0
+    positive_mask = shap_values_class > 0
+    positive_shap_values = shap_values_class[positive_mask].reshape(1, -1)
+    positive_feature_names = tfidf_vectorizer.get_feature_names_out()[positive_mask]
+
+    plt.figure(figsize=(10, 5))
+    plt.title(f'Words Impact on Classification')
+
+    shap.summary_plot(positive_shap_values, feature_names=positive_feature_names)
+    plt.gcf().patch.set_linewidth(2)
+    plt.gcf().patch.set_edgecolor('black')
+    st.pyplot(plt)

@@ -1,4 +1,4 @@
-from Classify import predict_lr
+from Classify import predict_lr, plot_shap_values
 from datetime import datetime
 import pandas as pd
 import base64
@@ -102,7 +102,7 @@ def ticket_submission(df):
     priority = st.radio("Priority", ["Low", "Medium", "High"])
 
 
-
+    explainable = False
     if st.session_state.description is not None:
         if len(st.session_state.description) < 50 and st.session_state.description != "":
             sss = st.warning(f"🚨 The description is too short. Minimum length is 50 characters.")
@@ -114,8 +114,14 @@ def ticket_submission(df):
             option = " "
             predicted_category = ""
             if st.session_state.description:
-                predicted_category = predict_lr([st.session_state.description])
+                st.header("Predicted Category")
+                predicted_category, label, prob = predict_lr([st.session_state.description])
                 st.write("Your Ticket is classified in the following category: ", predicted_category)
+                explainable = st.radio("Do you want to the explanation why this category was predicted?", options=["No", "Yes"])
+
+                if explainable == "Yes":
+                    plot_shap_values([st.session_state.description], class_index=label)
+
                 option = st.radio("Do you believe this system or do you want to change the category?", options=[predicted_category, "Others"])
 
             if option == predicted_category:
@@ -150,6 +156,7 @@ def ticket_submission(df):
                         index=subcategories.get(st.session_state.selected_category, []).index(
                             st.session_state.selected_subcategory) + 1 if st.session_state.selected_subcategory else 0
                     )
+
 
     # Conditionally set CSS style to disable the submit button
     button_disabled = not (st.session_state.selected_category and st.session_state.description and st.session_state.selected_subcategory)
