@@ -65,7 +65,7 @@ def main():
 
     # Login page
     if not st.session_state.logged_in:
-        st.set_page_config(layout="centered")
+        #st.set_page_config(layout="centered")
 
         if st.session_state.page == 'Login':
             login_page()
