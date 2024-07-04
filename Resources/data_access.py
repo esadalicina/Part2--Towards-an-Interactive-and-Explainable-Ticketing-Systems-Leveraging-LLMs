@@ -1,6 +1,6 @@
 import pandas as pd
 
-DATA_FILE = 'data/tickets.csv'
+DATA_FILE = '/mount/src/ticketing-system/Data/tickets.csv'
 
 
 def load_tickets():

@@ -7,9 +7,8 @@ import streamlit as st
 
 # Load the model and required objects with error handling
 try:
-    loaded_model = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/modelML.pkl')
-    tfidf_vectorizer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/tfidf_transformer.pkl')
-    explainer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/explainer.pkl')
+    loaded_model = joblib.load('/mount/src/ticketing-system/Model/TF/modelML.pkl')
+    tfidf_vectorizer = joblib.load('/mount/src/ticketing-system/Model/TF/tfidf_transformer.pkl')
 except Exception as e:
     print(f"Error loading model or objects: {e}")
     raise
