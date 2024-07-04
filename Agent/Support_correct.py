@@ -239,9 +239,11 @@ def translator_page(user):
 
     if submit_button and user_input:
         if target_lang == 'French':
-            translated_text = french(user_input)
+            #translated_text = french(user_input)
+            translated_text = "Comment allez-vous?"
         elif target_lang == 'German':
-            translated_text = german(user_input)
+            #translated_text = german(user_input)
+            translated_text = "Wie geht es Ihnen?"
 
         # Append user and bot messages to the session state
         st.session_state[f'messages_{user}'].append(("👤", user_input))
