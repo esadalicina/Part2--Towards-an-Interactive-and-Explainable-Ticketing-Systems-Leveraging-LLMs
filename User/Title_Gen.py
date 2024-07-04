@@ -1,9 +1,13 @@
 from transformers import AutoTokenizer, T5ForConditionalGeneration
+import streamlit as st
 
+@st.cache
+def load_model():
+    tokenizer = AutoTokenizer.from_pretrained("czearing/article-title-generator")
+    model = T5ForConditionalGeneration.from_pretrained("czearing/article-title-generator")
+    return tokenizer, model
 
-tokenizer = AutoTokenizer.from_pretrained("czearing/article-title-generator")
-model = T5ForConditionalGeneration.from_pretrained("czearing/article-title-generator")
-
+tokenizer, model = load_model()
 
 def generate_title(text):
     input_ids = tokenizer(text, return_tensors="pt").input_ids

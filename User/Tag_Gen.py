@@ -1,9 +1,16 @@
 from keybert import KeyBERT
 from transformers import pipeline
-
+import streamlit as st
 # Load a pre-trained transformer model using Hugging Face's pipeline
-model_name = "sentence-transformers/all-MiniLM-L6-v2"
-hf_pipeline = pipeline("feature-extraction", model=model_name)
+
+@st.cache
+
+def load_model():
+        model_name = "sentence-transformers/all-MiniLM-L6-v2"
+        hf_pipeline = pipeline("feature-extraction", model=model_name)
+        return hf_pipeline
+
+hf_pipeline = load_model()
 
 # Initialize KeyBERT with the transformer model
 kw_model = KeyBERT(model=hf_pipeline)

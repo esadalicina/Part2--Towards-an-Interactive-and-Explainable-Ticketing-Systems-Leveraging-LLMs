@@ -239,11 +239,9 @@ def translator_page(user):
 
     if submit_button and user_input:
         if target_lang == 'French':
-            pass
-            #translated_text = french(user_input)
+            translated_text = french(user_input)
         elif target_lang == 'German':
-            pass
-            #translated_text = german(user_input)
+            translated_text = german(user_input)
 
         # Append user and bot messages to the session state
         st.session_state[f'messages_{user}'].append(("👤", user_input))
@@ -417,28 +415,28 @@ def main(users, tickets):
             # st.session_state.selected_ticket = None
             st.rerun()
 
-        if page == "Dashboard" and st.session_state.role == 'admin':
-
-            support_info(st, subcategories, update_subcategory, users)
-
-            add_support(st, update_subcategory, subcategories, users)
-
-            remove_support(st, update_subcategory, subcategories, users)
-
-        elif page == "Ticket Updates" and st.session_state.role == 'admin':
-
-            reclassify(st, subcategories, update_subcategory, tickets, reclassify_ticket, load_tickets)
-
-        elif page == "Ticket Information" and st.session_state.role == 'admin':
-            get_info(st, tickets)
-
-        elif page == "User Feedback" and st.session_state.role == 'admin':
-            feedback_page(users, tickets)
+        # if page == "Dashboard" and st.session_state.role == 'admin':
+        #
+        #     support_info(st, subcategories, update_subcategory, users)
+        #
+        #     add_support(st, update_subcategory, subcategories, users)
+        #
+        #     remove_support(st, update_subcategory, subcategories, users)
+        #
+        # elif page == "Ticket Updates" and st.session_state.role == 'admin':
+        #
+        #     reclassify(st, subcategories, update_subcategory, tickets, reclassify_ticket, load_tickets)
+        #
+        # elif page == "Ticket Information" and st.session_state.role == 'admin':
+        #     get_info(st, tickets)
+        #
+        # elif page == "User Feedback" and st.session_state.role == 'admin':
+        #     feedback_page(users, tickets)
 
         # elif page == "Conversation" and st.session_state.role == 'admin':
         #     conversation(st, save_message, users)
 
-        elif page == "Tickets" and st.session_state.role != 'admin':
+        if page == "Tickets" and st.session_state.role != 'admin':
             st_autorefresh(interval=5000, key="chatrefresh")
             st.header(f'Tickets for {st.session_state.team} Team')
             team_tickets = tickets[

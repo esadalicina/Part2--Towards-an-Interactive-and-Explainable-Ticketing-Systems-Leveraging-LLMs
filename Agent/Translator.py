@@ -1,12 +1,16 @@
+import streamlit
 from transformers import MBartForConditionalGeneration, MBart50TokenizerFast
 
+@streamlit.cache
+def load_model():
+    model_name = "facebook/mbart-large-50-many-to-many-mmt"
 
-model_name = "facebook/mbart-large-50-many-to-many-mmt"
+    # Load the MBart model and tokenizer
+    model = MBartForConditionalGeneration.from_pretrained(model_name)
+    tokenizer = MBart50TokenizerFast.from_pretrained(model_name)
+    return model, tokenizer
 
-# Load the MBart model and tokenizer
-model = MBartForConditionalGeneration.from_pretrained(model_name)
-tokenizer = MBart50TokenizerFast.from_pretrained(model_name)
-
+model, tokenizer = load_model()
 
 def translate_text(text, src_lang, tgt_lang):
     tokenizer.src_lang = src_lang

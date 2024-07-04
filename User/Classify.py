@@ -6,12 +6,14 @@ import streamlit as st
 
 
 # Load the model and required objects with error handling
-try:
+
+@st.cache
+def load_model():
     loaded_model = joblib.load('/mount/src/ticketing-system/Model/TF/modelML.pkl')
     tfidf_vectorizer = joblib.load('/mount/src/ticketing-system/Model/TF/tfidf_transformer.pkl')
-except Exception as e:
-    print(f"Error loading model or objects: {e}")
-    raise
+    return loaded_model, tfidf_vectorizer
+
+loaded_model, tfidf_vectorizer = load_model()
 
 # Classify the new tickets
 def predict_lr(text):
