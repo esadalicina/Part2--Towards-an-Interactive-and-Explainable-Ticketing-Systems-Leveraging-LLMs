@@ -4,7 +4,7 @@ import certifi
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from Translator import german, french
+# from Translator import german, french
 from streamlit_autorefresh import st_autorefresh
 from Admin_correct import *
 from User_Feedback import *
