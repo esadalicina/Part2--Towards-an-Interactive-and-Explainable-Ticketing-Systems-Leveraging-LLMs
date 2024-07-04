@@ -140,12 +140,6 @@ def display_messages(current_user, chat_with, ticket_id):
 
 
 def chat_conversation(ticket_id, tickets):
-    """
-    Display the chat conversation for a specific ticket.
-
-    Args:
-        ticket_id (int): The ID of the ticket.
-    """
 
     # Initialize the database for chat
     init_db()
@@ -185,7 +179,6 @@ def ticket_information():
 
     st_autorefresh(interval=10000, key="refresh")
 
-    st.header("Ticket Information")
     tickets = ensure_arrow_compatibility(load_tickets())
     st.session_state.tickets = tickets
 
@@ -200,11 +193,11 @@ def ticket_information():
 
     st.sidebar.write("Solved Tickets")
     closed_tickets = st.session_state.tickets[st.session_state.tickets['Status'] == 'Closed']
-    st.sidebar.write(closed_tickets)
+    st.sidebar.write(closed_tickets[['id', 'Ticket Title', "Description", "Category", "Subcategory", "Assigned_to", "Submission Time", "Feedback Smiley", "Feedback Text"]])
 
     st.sidebar.write("Submitted Tickets")
     submitted_tickets = st.session_state.tickets[st.session_state.tickets['Status'] == 'Submitted']
-    st.sidebar.write(submitted_tickets)
+    st.sidebar.write(submitted_tickets[['id', 'Ticket Title', "Description", "Category", "Subcategory", "Submission Time"]])
 
     ticket_title = ""
     if 'tickets' in st.session_state:
@@ -222,9 +215,14 @@ def ticket_information():
         specific = st.session_state.tickets[(st.session_state.tickets['id'] == ticket_id) & (st.session_state.tickets['Status'] == "In Progress")]
         if not specific.empty:
             ticket = st.session_state.tickets.loc[st.session_state.tickets['id'] == ticket_id].squeeze()
+            st.header(f"Ticket #{ticket_id}")
+            st.subheader(ticket_title)
+            st.write(f"**Description:** {ticket['Description']}")
+            st.write(f"**Category:** {ticket['Category']}")
+            st.write(f"**Subcategory:** {ticket['Subcategory']}")
+            st.write(f"**Assigned to:** {ticket['Assigned_to']}")
+            st.write(f"**Submission Time:** {ticket['Submission Time']}")
 
-            st.subheader(f"Ticket #{ticket_id} Details: {ticket_title}")
-            st.write(ticket)
 
             # Display chat conversation for the selected ticket
             chat_conversation(ticket_id, tickets)
@@ -250,4 +248,4 @@ def ticket_information():
                     st.rerun()
 
     else:
-        st.write("Select a ticket to view its details and chat.")
+        st.write("No ticket selected or in progress.")

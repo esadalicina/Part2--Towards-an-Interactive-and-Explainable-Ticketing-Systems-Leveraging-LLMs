@@ -93,14 +93,13 @@ def ticket_submission(df):
         st.session_state.tags = None
 
 
-    st.write("Please enter a detailed description of your complaint and what you already have done to solve it!")
-    st.session_state.description = st.text_area("Description", value=st.session_state.description, height=200,
+    st.session_state.description = st.text_area("Provide a detailed description of your complaint and what you already have done to solve it!", value=st.session_state.description, height=200,
                                                 placeholder="e.x 'I am having trouble logging into my bank account. I have tried multiple times and "
                                                             "I have received no response. I tried resetting my password, but that did not seem to work either. "
                                                             "I am concerned that there may be an issue with my account security or that someone "
                                                             "has accessed my account without my permission.")
-    priority = st.radio("Priority", ["Low", "Medium", "High"])
 
+    priority = st.selectbox("Priority", ["Low", "Medium", "High"])
 
     explainable = False
     if st.session_state.description is not None:
@@ -116,13 +115,14 @@ def ticket_submission(df):
             if st.session_state.description:
                 st.header("Predicted Category")
                 predicted_category, label, prob = predict_lr([st.session_state.description])
-                st.write("Your Ticket is classified in the following category: ", predicted_category)
-                explainable = st.radio("Do you want to the explanation why this category was predicted?", options=["No", "Yes"])
+                st.write(f"Your Ticket is classified in the following category: **{predicted_category}**")
+                explainable = st.radio("Do you want to check the explanation of the systems decision?", options=["No", "Yes"])
 
                 if explainable == "Yes":
+                    st.write("Tha diagram shows which words from your description had a positive impact on the decision.")
                     plot_shap_values([st.session_state.description], class_index=label)
 
-                option = st.radio("Do you believe this system or do you want to change the category?", options=[predicted_category, "Others"])
+                option = st.radio("Do you trust our system or do you want to change the category?", options=[predicted_category, "Others"])
 
             if option == predicted_category:
                 update_subcategory()

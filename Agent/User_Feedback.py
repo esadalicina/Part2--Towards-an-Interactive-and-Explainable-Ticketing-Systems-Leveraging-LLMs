@@ -13,6 +13,8 @@ from Resources.data_access import load_tickets
 
 
 def user_feedback_page(ticket_support):
+
+    st.header("User Feedback")
     # Load the tickets data
     chart_data = load_tickets()
     chart_data = chart_data.loc[chart_data['Assigned_to'] == ticket_support]

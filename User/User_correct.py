@@ -9,7 +9,8 @@ def navigate_to_page(page_name):
     st.rerun()
 
 def login_page():
-    st.header("Login")
+    st.header("Welcome to the User Ticketing Website")
+    st.subheader("Please login to continue")
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
@@ -99,7 +100,7 @@ def main():
 
             st.info("🎉 Join our Discord Community for Support and Updates. Help each other to solve the issues faster.")
 
-            st.page_link("https://discord.gg/rmXEb7rt", label="Discord Community", icon="🌎")
+            st.page_link("https://discord.gg/VJejVqUg3s", label="Discord Community", icon="🌎")
 
             # Embed the chatbot iframe with custom CSS
             if 'chatbot_open' in st.session_state and st.session_state.chatbot_open:
@@ -108,7 +109,7 @@ def main():
                     <style>
                     .chatbot-container {
                         width: 100%;
-                        height: 300px;
+                        height: 400px;
                         overflow: hidden;
                         background: white;
                         border: 1px solid black;
@@ -126,14 +127,15 @@ def main():
                         <iframe class="chatbot-iframe" src="https://app.fastbots.ai/embed/clxg1aa3802rrr9bct9iza0ks"></iframe>
                     </div>
                     """,
-                    height=320  # Adjust this height as needed
+                    height=420  # Adjust this height as needed
                 )
 
         elif st.session_state.page == 'Ticket Submission':
+
+            ticket_submission(df)
             if st.button('Back to Home', key='home_from_submission', use_container_width=True):
                 st.session_state.page = 'Home'
                 st.rerun()
-            ticket_submission(df)
             if st.button('Logout', key='logout_submission', use_container_width=True):
                 st.session_state.logged_in = False
                 st.session_state.page = 'Login'
@@ -141,10 +143,11 @@ def main():
 
         elif st.session_state.page == 'Ticket Information':
             # st_autorefresh(interval=5000, key="chat_refresh")
+
+            ticket_information()
             if st.button('Back to Home', key='home_from_information', use_container_width=True):
                 st.session_state.page = 'Home'
                 st.rerun()
-            ticket_information()
             if st.button('Logout', key='logout_information', use_container_width=True):
                 st.session_state.logged_in = False
                 st.session_state.page = 'Login'

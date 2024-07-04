@@ -223,8 +223,9 @@ def mark_ticket_wrong_classification(ticket_id):
 
 
 def translator_page(user):
+    st.header("Translator")
     st.write("Welcome to the translation chatbot!")
-    st.write("Type your message, select the target language, and see the translation below.")
+    st.write("Type your text, select the target language, and see the translation below.")
 
     # Initialize session state variables to hold the chat history
     if f'messages_{user}' not in st.session_state:
@@ -246,7 +247,7 @@ def translator_page(user):
         st.session_state[f'messages_{user}'].append(("👤", user_input))
         st.session_state[f'messages_{user}'].append(("🤖", translated_text))
 
-    st.write("## Chat History")
+    st.subheader("Chat History")
 
     for speaker, message in st.session_state[f'messages_{user}']:
         if speaker == "👤":
@@ -272,7 +273,6 @@ def display_ticket_info(ticket_id):
     st.write(f"**Title:** {ticket['Ticket Title']}")
     st.write(f"**Description:** {ticket['Description']}")
     st.write(f"**Priority:** {ticket['Priority']}")
-    st.write(f"**Status:** {ticket['Status']}")
 
     ticket_chat_page(ticket_id)
 
@@ -287,7 +287,7 @@ def display_ticket_info(ticket_id):
 
 
 def my_tickets_page():
-    st.header(f'My Tickets ({st.session_state.user})')
+    st.header(f'My Tickets')
 
     # Filter tickets assigned to current user and not closed
     my_tickets = tickets[(tickets['Assigned_to'] == st.session_state.user) & (tickets['Status'] != 'User Feedback') & (tickets['Status'] != 'Closed')]
@@ -379,8 +379,8 @@ def main(users, tickets):
 
 
     if not st.session_state.logged_in:
-        st.title('Support Ticketing System')
-        st.subheader('Login')
+        st.title('Support Agent Website')
+        st.subheader('Please login to continue')
         username = st.text_input('Username')
         password = st.text_input('Password', type='password')
         if st.button('Login'):
@@ -392,6 +392,19 @@ def main(users, tickets):
         st.sidebar.write(f'Team: {st.session_state.team}')
         st.sidebar.write(f'Role: {st.session_state.role}')
 
+
+        if st.session_state.role == 'admin':
+            pages = ["Dashboard", "Ticket Updates", "Ticket Information", "User Feedback", "Conversation"]
+        else:
+            pages = ["Tickets", "My Tickets", "User Feedback", "Translator"]
+
+
+        if st.session_state.page not in pages:
+            st.session_state.page = pages[0]
+
+        page = st.sidebar.radio("Navigation", pages, index=pages.index(st.session_state.page))
+        st.session_state.page = page
+
         if st.sidebar.button('Logout'):
             st.session_state.logged_in = False
             st.session_state.user = None
@@ -401,19 +414,6 @@ def main(users, tickets):
             st.session_state.page = 'Dashboard'
             # st.session_state.selected_ticket = None
             st.rerun()
-
-        if st.session_state.role == 'admin':
-            pages = ["Dashboard", "Ticket Updates", "Ticket Information", "User Feedback", "Conversation"]
-        else:
-            pages = ["Tickets", "My Tickets", "User Feedback", "Translator"]
-
-        if st.session_state.page not in pages:
-            st.session_state.page = pages[0]
-
-        page = st.sidebar.radio("Navigation", pages, index=pages.index(st.session_state.page))
-        st.session_state.page = page
-
-        st.title(page)
 
         if page == "Dashboard" and st.session_state.role == 'admin':
 
@@ -438,7 +438,7 @@ def main(users, tickets):
 
         elif page == "Tickets" and st.session_state.role != 'admin':
             st_autorefresh(interval=5000, key="chatrefresh")
-            st.header(f'Tickets and Team Chat for {st.session_state.team} Team')
+            st.header(f'Tickets for {st.session_state.team} Team')
             team_tickets = tickets[
                 (tickets['Subcategory'] == st.session_state.team) & (tickets['Status'] != 'User Feedback') & (
                             tickets['Status'] != 'In Progress') & (tickets['Status'] != 'Wrong Classification') & (
@@ -448,9 +448,10 @@ def main(users, tickets):
             if priority_filter != 'All':
                 team_tickets = team_tickets[team_tickets['Priority'] == priority_filter]
 
-            st.dataframe(team_tickets[['id', "Tags", "Ticket Title"]], use_container_width=True)
+            st.dataframe(team_tickets[['id', "Tags", "Ticket Title", "Description"]], use_container_width=True)
 
-            ticket_id = st.selectbox('Enter Ticket ID to Accept', team_tickets['id'])
+
+            ticket_id = st.selectbox('Enter Ticket ID to Accept', [""] + list(team_tickets['id']))
             if st.button('Accept Ticket'):
                 st.success(f'Ticket {ticket_id} accepted.', icon="✅")
                 email = get_email_address(ticket_id)
@@ -467,28 +468,8 @@ def main(users, tickets):
                 mark_ticket_wrong_classification(ticket_id_wrong_classification)
                 load_tickets()  # Reload tickets to get updated data
 
-            # TEAM CHAT
-            # # Team Chat Section
-            # st.subheader('Team Chat')
-            # chat_message = st.text_area('Enter your message')
-            # if st.button('Send Chat Message'):
-            #     save_message(st.session_state.user, st.session_state.team, chat_message, team_chat=True)
-            #     st.success('Message sent to team chat.')
-            #
-            # st.subheader('Chat Messages')
-            # team_chat_messages = load_messages(st.session_state.team)
-            # for _, message in team_chat_messages.iterrows():
-            #     user_color = user_colors.get(message['user'], '#FFFFFF')
-            #     st.markdown(f"""
-            #             <div style="background-color: {user_color}; padding: 10px; border-radius: 5px;">
-            #                 <strong>{message['user']}:</strong> {message['message']}
-            #             </div>
-            #             """, unsafe_allow_html=True)
-
+            st.subheader('Team Chat')
             chat_conversation(st.session_state.team, st.session_state.user)
-
-
-
 
         elif page == "My Tickets" and st.session_state.role != 'admin':
             my_tickets_page()
