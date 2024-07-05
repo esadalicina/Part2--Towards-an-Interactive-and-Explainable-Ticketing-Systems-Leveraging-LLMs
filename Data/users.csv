@@ -15,3 +15,8 @@ id,name,password,team,category,role
 16.0,Igor Tchappi,igor,Other financial service,Money Transfers and Financial Services,support
 17.0,Esada,esada,"Money transfer, virtual currency, or money service",Money Transfers and Financial Services,support
 18.0,Sam,sam,Bank account or service, Bank Account or Service,support
+19.0,Agent1,agent,Checking or savings account,Bank Account or Servic,support
+20.0,Agent2,agent,Checking or savings account,Bank Account or Servic,support
+21.0,Agent3,agent,Checking or savings account,Bank Account or Servic,support
+22.0,Agent4,agent,Checking or savings account,Bank Account or Servic,support
+23.0,Agent5,agent,Checking or savings account,Bank Account or Servic,support

@@ -4,13 +4,15 @@ import certifi
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-# from Translator import german, french
+import pandas as pd
+#from Translator import german, french
 from streamlit_autorefresh import st_autorefresh
-from Admin_correct import *
+# from Admin_correct import *
 from User_Feedback import *
 from Agent_chat import chat_conversation
 import sys
 import os
+import time
 
 # Add the directory containing the Resources module to the system path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -271,8 +273,9 @@ def translator_page(user):
 def display_ticket_info(ticket_id):
     ticket = tickets.loc[tickets['id'] == ticket_id].squeeze()
 
-    st.markdown(f"### Ticket #{ticket['id']}")
-    st.write(f"**Title:** {ticket['Ticket Title']}")
+    st.markdown(f"### Ticket #{ticket['id']} : {ticket['Ticket Title']}")
+    st.write(f"**User:** {ticket['Username']}")
+    st.write(f"**Email:** {ticket['Email']}")
     st.write(f"**Description:** {ticket['Description']}")
     st.write(f"**Priority:** {ticket['Priority']}")
 
@@ -484,6 +487,7 @@ def main(users, tickets):
 
 
 if __name__ == "__main__":
-    users = pd.read_csv('/mount/src/ticketing-system/Data/users.csv')
+    # users = pd.read_csv('/mount/src/ticketing-system/Data/users.csv')
+    users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
     tickets = load_tickets()
     main(users, tickets)

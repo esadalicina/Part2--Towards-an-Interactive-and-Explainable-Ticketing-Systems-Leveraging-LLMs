@@ -34,7 +34,7 @@ def login_page():
 
 
 def main():
-    df = pd.read_csv("/mount/src/ticketing-system/Data/KB_dataset.csv")
+    df = pd.read_csv("/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/KB_dataset.csv")
 
     # Initialize session state for login
     if 'logged_in' not in st.session_state:
@@ -144,7 +144,7 @@ def main():
         elif st.session_state.page == 'Ticket Information':
             # st_autorefresh(interval=5000, key="chat_refresh")
 
-            ticket_information()
+            ticket_information(st.session_state.username)
             if st.button('Back to Home', key='home_from_information', use_container_width=True):
                 st.session_state.page = 'Home'
                 st.rerun()

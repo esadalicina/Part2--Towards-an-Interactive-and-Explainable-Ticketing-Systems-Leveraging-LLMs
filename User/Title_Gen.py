@@ -1,7 +1,7 @@
 from transformers import AutoTokenizer, T5ForConditionalGeneration
 import streamlit as st
 
-@st.cache
+@st.cache_resource
 def load_model():
     tokenizer = AutoTokenizer.from_pretrained("czearing/article-title-generator")
     model = T5ForConditionalGeneration.from_pretrained("czearing/article-title-generator")

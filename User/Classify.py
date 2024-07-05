@@ -7,10 +7,13 @@ import streamlit as st
 
 # Load the model and required objects with error handling
 
-@st.cache
+@st.cache_resource
 def load_model():
-    loaded_model = joblib.load('/mount/src/ticketing-system/Model/TF/modelML.pkl')
-    tfidf_vectorizer = joblib.load('/mount/src/ticketing-system/Model/TF/tfidf_transformer.pkl')
+    #loaded_model = joblib.load('/mount/src/ticketing-system/Model/TF/modelML.pkl')
+    #tfidf_vectorizer = joblib.load('/mount/src/ticketing-system/Model/TF/tfidf_transformer.pkl')
+    loaded_model = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/modelML.pkl')
+    tfidf_vectorizer = joblib.load('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Model/TF/tfidf_transformer.pkl')
+
     return loaded_model, tfidf_vectorizer
 
 loaded_model, tfidf_vectorizer = load_model()

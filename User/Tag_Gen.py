@@ -3,7 +3,7 @@ from transformers import pipeline
 import streamlit as st
 # Load a pre-trained transformer model using Hugging Face's pipeline
 
-@st.cache
+@st.cache_resource
 
 def load_model():
         model_name = "sentence-transformers/all-MiniLM-L6-v2"

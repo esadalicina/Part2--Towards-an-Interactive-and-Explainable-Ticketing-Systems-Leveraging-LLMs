@@ -22,7 +22,7 @@ def create_tables():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             full_name TEXT,
             username TEXT UNIQUE,
-            email TEXT UNIQUE,
+            email TEXT,
             password TEXT,
             email_confirmed INTEGER,
             confirmation_token TEXT
@@ -53,7 +53,7 @@ def send_confirmation_email(email, token):
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    confirmation_link = f"http://192.168.178.78:8501/?page=Confirm_Email&token={token}"
+    confirmation_link = f"http://192.168.178.78:8502/?page=Confirm_Email&token={token}"
     text = f"Please confirm your email by clicking the link below:\n\n{confirmation_link}"
     part1 = MIMEText(text, "plain")
 

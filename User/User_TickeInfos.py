@@ -175,11 +175,12 @@ def chat_conversation(ticket_id, tickets):
     st_autorefresh(interval=1000, key="chat_refresh")
 
 
-def ticket_information():
+def ticket_information(user):
 
     st_autorefresh(interval=10000, key="refresh")
 
-    tickets = ensure_arrow_compatibility(load_tickets())
+    ticket = ensure_arrow_compatibility(load_tickets())
+    tickets = ticket[ticket["Username"] == user]
     st.session_state.tickets = tickets
 
     # Load tickets from CSV
@@ -190,7 +191,6 @@ def ticket_information():
     st.sidebar.subheader("Ticket Overview")
 
     # Display submitted and unsolved tickets in the sidebar
-
     st.sidebar.write("Solved Tickets")
     closed_tickets = st.session_state.tickets[st.session_state.tickets['Status'] == 'Closed']
     st.sidebar.write(closed_tickets[['id', 'Ticket Title', "Description", "Category", "Subcategory", "Assigned_to", "Submission Time", "Feedback Smiley", "Feedback Text"]])
