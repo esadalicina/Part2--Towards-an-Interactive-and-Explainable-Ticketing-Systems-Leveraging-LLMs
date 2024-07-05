@@ -34,7 +34,9 @@ def login_page():
 
 
 def main():
-    df = pd.read_csv("/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/KB_dataset.csv")
+    # df = pd.read_csv("/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/KB_dataset.csv")
+    df = pd.read_csv("/mount/src/Ticketing-System/Data/KB_dataset.csv")
+
 
     # Initialize session state for login
     if 'logged_in' not in st.session_state:

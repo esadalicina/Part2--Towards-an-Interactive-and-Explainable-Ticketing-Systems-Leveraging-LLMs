@@ -487,7 +487,7 @@ def main(users, tickets):
 
 
 if __name__ == "__main__":
-    # users = pd.read_csv('/mount/src/ticketing-system/Data/users.csv')
-    users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
+    users = pd.read_csv('/mount/src/ticketing-system/Data/users.csv')
+    #users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
     tickets = load_tickets()
     main(users, tickets)
