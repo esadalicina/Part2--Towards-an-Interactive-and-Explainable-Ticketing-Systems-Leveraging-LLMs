@@ -1,7 +1,7 @@
 import pandas as pd
 
 #DATA_FILE = '/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/tickets.csv'
-DATA_FILE = '/mount/src/Ticketing-System/Data/tickets.csv'
+DATA_FILE = '/mount/src/ticketing-system/Data/tickets.csv'
 
 
 def load_tickets():
