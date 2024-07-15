@@ -4,10 +4,8 @@ import certifi
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-import pandas as pd
-#from Translator import german, french
-from streamlit_autorefresh import st_autorefresh
-# from Admin_correct import *
+from Translator import german, french
+from Admin_correct import *
 from User_Feedback import *
 from Agent_chat import chat_conversation
 import sys
@@ -241,11 +239,9 @@ def translator_page(user):
 
     if submit_button and user_input:
         if target_lang == 'French':
-            #translated_text = french(user_input)
-            translated_text = "Comment allez-vous?"
+            translated_text = french(user_input)
         elif target_lang == 'German':
-            #translated_text = german(user_input)
-            translated_text = "Wie geht es Ihnen?"
+            translated_text = german(user_input)
 
         # Append user and bot messages to the session state
         st.session_state[f'messages_{user}'].append(("👤", user_input))
@@ -420,26 +416,26 @@ def main(users, tickets):
             # st.session_state.selected_ticket = None
             st.rerun()
 
-        # if page == "Dashboard" and st.session_state.role == 'admin':
-        #
-        #     support_info(st, subcategories, update_subcategory, users)
-        #
-        #     add_support(st, update_subcategory, subcategories, users)
-        #
-        #     remove_support(st, update_subcategory, subcategories, users)
-        #
-        # elif page == "Ticket Updates" and st.session_state.role == 'admin':
-        #
-        #     reclassify(st, subcategories, update_subcategory, tickets, reclassify_ticket, load_tickets)
-        #
-        # elif page == "Ticket Information" and st.session_state.role == 'admin':
-        #     get_info(st, tickets)
-        #
-        # elif page == "User Feedback" and st.session_state.role == 'admin':
-        #     feedback_page(users, tickets)
+        if page == "Dashboard" and st.session_state.role == 'admin':
 
-        # elif page == "Conversation" and st.session_state.role == 'admin':
-        #     conversation(st, save_message, users)
+            support_info(st, subcategories, update_subcategory, users)
+
+            add_support(st, update_subcategory, subcategories, users)
+
+            remove_support(st, update_subcategory, subcategories, users)
+
+        elif page == "Ticket Updates" and st.session_state.role == 'admin':
+
+            reclassify(st, subcategories, update_subcategory, tickets, reclassify_ticket, load_tickets)
+
+        elif page == "Ticket Information" and st.session_state.role == 'admin':
+            get_info(st, tickets)
+
+        elif page == "User Feedback" and st.session_state.role == 'admin':
+            feedback_page(users, tickets)
+
+        elif page == "Conversation" and st.session_state.role == 'admin':
+            conversation(st, save_message, users)
 
         if page == "Tickets" and st.session_state.role != 'admin':
             st_autorefresh(interval=5000, key="chatrefresh")
@@ -487,7 +483,6 @@ def main(users, tickets):
 
 
 if __name__ == "__main__":
-    users = pd.read_csv('/mount/src/ticketing-system/Data/users.csv')
-    #users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
+    users = pd.read_csv('/Users/esada/Documents/UNI.lu/MICS/Sem4/Ticketing-System/Data/users.csv')
     tickets = load_tickets()
     main(users, tickets)
