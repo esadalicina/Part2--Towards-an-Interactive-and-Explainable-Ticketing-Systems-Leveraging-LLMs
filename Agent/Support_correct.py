@@ -214,7 +214,7 @@ def ticket_chat_page(ticket_id):
 
 def reclassify_ticket(ticket_id, new_category, new_subcategory):
     update_ticket(ticket_id, 'Category', new_category)
-    update_ticket(ticket_id, 'Subcatgeory', new_subcategory)
+    update_ticket(ticket_id, 'Subcategory', new_subcategory)
     update_ticket(ticket_id, 'Status', 'Submited')
 
 

@@ -53,7 +53,7 @@ def send_confirmation_email(email, token):
     message["From"] = sender_email
     message["To"] = receiver_email
 
-    confirmation_link = f"http://192.168.178.78:8501/?page=Confirm_Email&token={token}"
+    confirmation_link = f"http://192.168.91.47:8501/?page=Confirm_Email&token={token}"
     text = f"Please confirm your email by clicking the link below:\n\n{confirmation_link}"
     part1 = MIMEText(text, "plain")
 

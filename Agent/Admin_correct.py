@@ -117,7 +117,7 @@ def support_info(st, subcategories, update_subcategory, users):
 def reclassify(st, subcategories, update_subcategory, tickets, reclassify_ticket, load_tickets):
     st.subheader('Reclassify Tickets')
     wrong_tickets = tickets[tickets['Status'] == 'Wrong Classification']
-    st.dataframe(wrong_tickets[['id', 'Category', 'Subcategory', 'Priority', 'Status']], use_container_width=True)
+    st.dataframe(wrong_tickets[['id', 'Category', 'Subcategory','Tags','Ticket Title' ,'Description','Priority', 'Status']], use_container_width=True)
 
     ticket_id_to_reclassify = st.selectbox('Enter Ticket ID to Reclassify', wrong_tickets['id'])
 
