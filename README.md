@@ -1,4 +1,4 @@
-# Master Thesis Part 1: Towards an Interactive and Explainable Ticketing System Leveraging Large Language Models (LLMs)
+# Master Thesis Part 2: Towards an Interactive and Explainable Ticketing System Leveraging Large Language Models (LLMs)
 
 ## Data Preprocessing and Model Training for automated ticket (text) classification 
 
