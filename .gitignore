@@ -1,0 +1,6 @@
+# Ignore environment files
+.env
+
+# Ignore other sensitive files or folders
+/config/
+*.log
