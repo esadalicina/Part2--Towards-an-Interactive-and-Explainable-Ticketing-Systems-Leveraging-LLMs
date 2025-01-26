@@ -16,7 +16,6 @@ https://github.com/esadalicina/part-3.git
 
 ## Table of Contents
 
-- [About the Project](#about-the-project)
 - [Features](#features)
 - [Installation](#installation)
 - [Running the Project](#running-the-project)
@@ -24,35 +23,27 @@ https://github.com/esadalicina/part-3.git
 - [Contributing](#contributing)
 - [License](#license)
 
-## About the Project
-
-This project is the second part of my **Master's Thesis**, where I develop a complete Ticketing System to demonstrate practical implementation of a web-based application for managing tasks and issues. The focus of this part is on building the interactive interface and implementing real-time ticket tracking using **Streamlit**, integrating both frontend and backend into a single application.
-
-The first part of the thesis covered the theoretical aspects and system architecture design, while this second part brings the concepts to life through code.
 
 ## Features
 
-- User authentication and role-based access (Admin/User)
-- Create, update, and delete tickets
-- Track ticket statuses (open, in-progress, closed)
-- Simple, interactive UI with real-time updates
-- Ticket filtering and sorting options
-- Admin dashboard to manage tickets and users
+- Admin Role: 
+- Support Staff Role: 
+- User Role:
+  
 
 ## Installation
 
 ### Prerequisites
 
 - **Python 3.8+** installed on your machine
-- **pip** for managing Python packages
 
 ### Setup Instructions
 
 1. **Clone the repository** to your local machine:
 
     ```bash
-    git clone https://github.com/your-username/ticketing-system.git
-    cd ticketing-system
+    git clone https://github.com/esadalicina/Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs.git
+    cd Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs
     ```
 
 2. **Create a virtual environment** (optional but recommended):
@@ -86,60 +77,64 @@ The first part of the thesis covered the theoretical aspects and system architec
    Create a `.env` file in the root directory of your project with the necessary environment variables (if applicable):
 
     ```plaintext
-    SECRET_KEY=your_secret_key
-    DATABASE_URL=sqlite:///tickets.db  # or your preferred database connection
+    Comapny_App_Passowrd=your_secret_key
     ```
 
-   Note: If you're using Streamlit's built-in features and SQLite, you may not need many environment variables.
-
-## Running the Project
+## Running the Project (User Role)
 
 To run the Streamlit Ticketing System locally:
 
 1. **Navigate to the project directory**:
 
+- User Role:
+  
     ```bash
-    cd ticketing-system
+    cd Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs/User
+    ```
+- Support Staff Role:
+    ```bash
+    cd Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs/Agent
+    ```
+- Admin Role:
+   ```bash
+    cd Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs/Agent
     ```
 
 2. **Run the Streamlit app**:
 
+- User Role:
     ```bash
-    streamlit run app.py
+    streamlit run User_correct.py
+    ```
+- Support Staff Role:
+    ```bash
+    streamlit run Support_correct.py
+    ```
+- Admin Role:
+   ```bash
+    streamlit run Support_correct.py
     ```
 
 3. **Access the application**:
-   - Open your browser and go to `http://localhost:8501` to access the Ticketing System UI.
+   - It will automataclly open the browser
+   - If not: Open your browser and go to `http://localhost:8501` to access the Ticketing System UI.
+  
+4. Login (already cretaed for testing)
 
-## Technologies Used
-
-- **Streamlit** - for building the web interface and backend logic
-- **SQLite** or any preferred database - for ticket and user data storage
-- **Python** - core programming language
-- **Pandas** - for data manipulation and management
-- **Streamlit Authentication** - for user roles and login functionality (or any custom auth system)
-- **Other Libraries**: Include any other dependencies listed in your `requirements.txt`
+- User Role:
+    Username: user
+    Password: user
+- Support Staff Role:
+    Username: Agent1
+    Password: agent
+- Admin Role:
+    Username: Admin
+    Password: adminpass
 
 ## Deployment
 
-To deploy the application, you can use any cloud platform that supports Streamlit applications, such as:
-
-- **Streamlit Cloud** (for free hosting of Streamlit apps)
-- **Heroku**
-- **AWS/Google Cloud** (using Docker for containerized deployment)
-
 Simply follow their respective guides for deploying a Streamlit app.
 
-## Contributing
+https://docs.streamlit.io/deploy/tutorials
 
-Contributions are welcome! Follow these steps to contribute:
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-name`).
-3. Make your changes and commit them (`git commit -m "Add feature"`).
-4. Push to the branch (`git push origin feature-name`).
-5. Open a pull request.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
