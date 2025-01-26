@@ -14,15 +14,6 @@ Master Thesis Part 3 - The focus is on the integration of a Discord community wi
 
 https://github.com/esadalicina/part-3.git
 
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Running the Project](#running-the-project)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
-
 
 ## Features
 
