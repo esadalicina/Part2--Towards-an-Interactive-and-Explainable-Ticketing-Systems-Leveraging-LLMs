@@ -12,7 +12,7 @@ https://github.com/esadalicina/Part2--Towards-an-Interactive-and-Explainable-Tic
 
 Master Thesis Part 3 - The focus is on the integration of a Discord community with task-specific bots: 
 
-https://github.com/esadalicina/part-3.git
+https://github.com/esadalicina/Part3--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs.git
 
 
 ## Features
