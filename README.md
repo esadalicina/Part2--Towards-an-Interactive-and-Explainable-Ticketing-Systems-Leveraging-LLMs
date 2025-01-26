@@ -17,9 +17,31 @@ https://github.com/esadalicina/part-3.git
 
 ## Features
 
-- Admin Role: 
-- Support Staff Role: 
+- Admin Role:
+    - Full access to all tickets and user data.
+    - Ability to create, edit, and delete tickets.
+    - Manage user roles (assign and modify Support Staff).
+    - Assign tickets to Support Staff.
+    - View ticket status and progress across the system.
+    - Generate reports on ticket statistics and user activity.
+    - Access the Admin dashboard for an overview of the system's performance and data.
+    - Have a chat with the support staff
+- Support Staff Role:
+    - View and manage tickets assigned to them.
+    - Update the status of tickets (e.g., mark as in-progress, resolve, close).
+    - Communicate with users to gather more information about tickets.
+    - Can only access tickets within their responsibility, not the entire ticket pool.
+    - Can have chat with team members
+    - Can mark ticket as "wrong classified" (The admin will have a look and reclassify it)
+    - Have an translator for better understanding
+    - Acces on user feedback
 - User Role:
+    - Submit new tickets for issues or requests.
+    - View the status of their own submitted tickets.
+    - Can only interact with their own tickets.
+    - Receive email notifications when a ticket is updated or resolved (only if you have registered with your email).
+    - Have access to a chatbot for question and help
+    - Have access to the Discord Community through an invitation link (Suppoprt by other users)
   
 
 ## Installation
