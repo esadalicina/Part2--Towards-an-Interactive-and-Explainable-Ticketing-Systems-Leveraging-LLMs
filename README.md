@@ -106,7 +106,7 @@ https://github.com/esadalicina/part-3.git
     Comapny_App_Passowrd=your_secret_key
     ```
 
-## Running the Project (User Role)
+## Running the Project
 
 To run the Streamlit Ticketing System locally:
 
