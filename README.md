@@ -114,21 +114,21 @@ To run the Streamlit Ticketing System locally:
 
 - User Role:
   
-    Username: user
+    - Username: user
   
-    Password: user
+    - Password: user
   
 - Support Staff Role:
   
-    Username: Agent1
+    - Username: Agent1
   
-    Password: agent
+    - Password: agent
   
 - Admin Role:
   
-    Username: Admin
+    - Username: Admin
   
-    Password: adminpass
+    - Password: adminpass
 
 ## Deployment
 
