@@ -6,11 +6,11 @@ It is the second part of my **Master's Thesis Project**, focusing on implementin
 The application allows users to create, manage, and track tickets, handle user roles (Admin/User/Support Staf), and offers real-time ticket management.
 
 
-Master Thesis Part 1 - The focus is on dataset preprocessing steps for the ticketing system to optimize ticket classification by comparing different machine learning, deep learning, and large language models.: 
+Master Thesis Part 1 - This repository involves preprocessing the dataset for the ticketing system to improve ticket classification through the evaluation and comparison of machine learning, deep learning, and large language models:
 
 https://github.com/esadalicina/Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs
 
-Master Thesis Part 3 - The focus is on the integration of a Discord community with task-specific bots: 
+Master Thesis Part 3 - This repository involves integrating a Discord community with task-specific bots:
 
 https://github.com/esadalicina/Part3--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs.git
 
