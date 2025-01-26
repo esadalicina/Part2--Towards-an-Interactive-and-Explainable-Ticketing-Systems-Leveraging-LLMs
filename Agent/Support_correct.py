@@ -38,7 +38,7 @@ def login(username, password):
 
 
 def send_notification(email):
-    sender_email = "cfpb.helpdesk@gmail.com"  # Replace with your Gmail address
+    sender_email = "Gmail of the company"  # Replace with your Gmail address
     receiver_email = email
 
     message = MIMEMultipart("alternative")
@@ -53,9 +53,23 @@ def send_notification(email):
     message.attach(part1)
 
     try:
+        # === How to create an App Password ===
+        # 1. Log in to your Google account.
+        # 2. Go to https://myaccount.google.com/security
+        # 3. Under "Signing in to Google", ensure that 2-Step Verification is enabled.
+        # 4. After enabling 2-Step Verification, go to "App passwords".
+        # 5. Choose "Mail" as the app and select "Other" for the device (you can name it something like "Python Script").
+        # 6. Google will generate a 16-character app password. Copy it.
+        # 7. Replace 'your-app-password-here' in this script with the app password.
+        # 
+        # IMPORTANT: For security, use environment variables or a secrets management system
+        # to store the app password securely instead of hardcoding it into the script.
+        # Example for environment variable usage:
+        # app_password = os.getenv("GMAIL_APP_PASSWORD")
+        # server.login(sender_email, app_password)
         context = ssl.create_default_context(cafile=certifi.where())
         with smtplib.SMTP_SSL('smtp.gmail.com', 465, context=context) as server:
-            server.login(sender_email, 'pbfc gvpl atax gfge')  # Use the app password here
+            server.login(sender_email, "Companies App Password")  # Use the app password here
             server.sendmail(sender_email, receiver_email, message.as_string())
 
     except Exception as e:
