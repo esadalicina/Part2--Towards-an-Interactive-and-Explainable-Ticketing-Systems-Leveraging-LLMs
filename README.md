@@ -42,7 +42,20 @@ https://github.com/esadalicina/part-3.git
     - Receive email notifications when a ticket is updated or resolved (only if you have registered with your email).
     - Have access to a chatbot for question and help
     - Have access to the Discord Community through an invitation link (Suppoprt by other users)
+
   
+## Repository Contents
+
+- Agent/: It contains all the python files that are used for the backend and frontend of the Admin and Support Staff interface.
+- Data/: It contains a knowledge database (KB_dataset.csv) that is used on the User Interface such that they get existing solutions for their resquest (the data is only a demo, not useful in real life). The folder contains also the created tickets (tickets.csv) and the created account information of the Support Staff and Admin (users.csv).
+- Model/: It contains the classification model files.
+- Resources/: It contains the files for the chat fucntion between the User-Agent (support staff) and Agent-Agent. Additionaly it contains the file to control and modfiy the tickets.csv file.
+- User: It contains all the python files that are used for the backend and frontend of the User interface.
+- chat.db: Database of the chat information/content from the user-agent interaction
+- chat_agent.db: Database of the chat information/content from the agent-agent interaction
+- users.db: Registration information of the users.
+- README.md: Instructions for accessing the Ticketing System
+
 
 ## Installation
 
