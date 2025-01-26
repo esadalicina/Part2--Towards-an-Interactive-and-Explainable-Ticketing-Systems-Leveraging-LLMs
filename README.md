@@ -8,7 +8,7 @@ The application allows users to create, manage, and track tickets, handle user r
 
 Master Thesis Part 1 - This repository involves preprocessing the dataset for the ticketing system to improve ticket classification through the evaluation and comparison of machine learning, deep learning, and large language models:
 
-https://github.com/esadalicina/Part2--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs
+https://github.com/esadalicina/Part1--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs.git
 
 Master Thesis Part 3 - This repository involves integrating a Discord community with task-specific bots:
 
