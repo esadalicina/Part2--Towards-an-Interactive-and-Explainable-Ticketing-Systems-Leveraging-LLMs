@@ -52,9 +52,12 @@ def send_confirmation_email(email, token):
     message["Subject"] = "Email Confirmation ✅"
     message["From"] = sender_email
     message["To"] = receiver_email
+    
+
+    -------------------- Modify code -------------------
 
     # Replace '192.168.91.47' with your Network server's IP address or domain
-#   # Replace '8501' with the appropriate port number your server is running on
+    # Replace '8501' with the appropriate port number your server is running on
 
     confirmation_link = f"http://192.168.91.47:8501/?page=Confirm_Email&token={token}"
     text = f"Please confirm your email by clicking the link below:\n\n{confirmation_link}"
