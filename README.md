@@ -6,6 +6,10 @@ It is the second part of my **Master's Thesis Project**, focusing on implementin
 The application allows users to create, manage, and track tickets, handle user roles (Admin/User/Support Staf), and offers real-time ticket management.
 
 
+Link to Demo Video and Report: 
+
+https://drive.google.com/drive/folders/18WiOuOiXuVwjF6gFSYoYCOlwFrr-SJwU?usp=share_link
+
 Master Thesis Part 1 - This repository involves preprocessing the dataset for the ticketing system to improve ticket classification through the evaluation and comparison of machine learning, deep learning, and large language models:
 
 https://github.com/esadalicina/Part1--Towards-an-Interactive-and-Explainable-Ticketing-Systems-Leveraging-LLMs.git
